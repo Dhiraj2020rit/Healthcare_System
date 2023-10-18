@@ -17,7 +17,7 @@ Healthcare companies like Apollo Hospitals Enterprise Limited need to leverage m
 <ul>
   <li>Dhiraj. N <b>Team Leader</b></li>
   <li>Muthulakshmi. J <b>Backend</b></li>
-  <li>Haridharsana. M. U <b>Frontend</b></li>
+  <li>Haridharshana. M. U <b>Frontend</b></li>
   <li>Geetha. A <b>Data Scientists</b></li>
   <li>Abinaya <b>Data Scientists</b></li>
 </ul>

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            margin: 0;
+            min-width: 250px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        ul {
+            margin: 0;
+            padding: 0;
+        }
+
+        input {
+            z-index: 100;
+            padding: 50px;
+        }
+
+        ul li {
+            cursor: pointer;
+            position: relative;
+            padding: 12px 8px 12px 40px;
+            list-style-type: none;
+            background: #eee;
+            font-size: 18px;
+            transition: 0.2s;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            padding: 50px;
+        }
+
+        ul li:nth-child(odd) {
+            background: #f9f9f9;
+        }
+
+        ul li:hover {
+            background: #696262;
+        }
+
+        ul li.checked {
+            background: #888;
+            color: #fff;
+
+        }
+
+        ul li.checked::before {
+            content: '';
+            position: absolute;
+            border-color: #fff;
+            border-style: solid;
+            border-width: 0 2px 2px 0;
+            top: 10px;
+            left: 16px;
+            transform: rotate(45deg);
+            height: 15px;
+            width: 7px;
+        }
+
+        .close {
+            position: absolute;
+            right: 0;
+            top: 0;
+            padding: 12px 16px 12px 16px;
+        }
+
+        .close:hover {
+            background-color: #f44336;
+            color: white;
+        }
+
+        .header {
+            background-color: #bbb2b1;
+            padding: 30px 40px;
+            color: white;
+            text-align: center;
+            background-image: url('https://www.mountsinai.org/files/MSHealth/Assets/HS/Care/Infectious-Diseases/MSHS-InfectiousDiseases-General-2Col-770x420-v2.jpg');
+
+        }
+
+        .header:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        input {
+            margin: 0;
+            border: none;
+            border-radius: 0;
+            width: 75%;
+            padding: 10px;
+            float: left;
+            font-size: 16px;
+        }
+
+        #Submit {
+            padding: 10px;
+            width: 25%;
+            background: #d9d9d9;
+            color: #555;
+            float: left;
+            text-align: center;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+            border-radius: 0;
+        }
+
+        #Submit:hover {
+            background-color: #bbb;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="myDIV" class="header">
+        <h2 style="margin:5px">Select you Symptoms</h2>
+    </div>
+
+    <form method="post">
+        <ul id="myUL">
+
+        </ul>
+        <span onclick="getSelectedSymptoms()" id="Submit">Submit</span>
+    </form>
+    <script>
+        symp = ['no of Pregnancies', 'Glucose level', 'BloodPressure', 'SkinThickness', 'Insulin', 'BMI', 'DiabetesPedigreeFunction', 'Age'];
+
+        var list = document.querySelector('ul');
+        function newElement(i) {
+            var li = document.createElement("li");
+            var label = document.createElement("label");
+            var inp = document.createElement("input");
+            inp.type = "text";
+            label.innerHTML = symp[i];
+            inp.name = symp[i];
+            li.appendChild(inp);
+            li.appendChild(label);
+            document.getElementById("myUL").appendChild(li);
+        }
+        function insertSymptoms() {
+            for (let i = 0; i < symp.length; i++) {
+                newElement(i);
+            }
+        }
+        insertSymptoms();
+        var list = document.querySelector('ul');
+
+        // function getSelectedSymptoms() {
+        //     var symptomValues = {};
+        //     var inputElements = document.querySelectorAll('input[type="text"]');
+        //     inputElements.forEach(function (input) {
+        //         symptomValues[input.name] = input.value;
+        //     });
+        //     console.log(symptomValues);
+        // }
+        function getSelectedSymptoms() {
+            var symptomValues = {};
+            var inputElements = document.querySelectorAll('input[type="text"]');
+            inputElements.forEach(function (input) {
+                symptomValues[input.name] = input.value;
+            });
+            fetch('/submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(symptomValues),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+
+    </script>
+</body>
+
+</html>
